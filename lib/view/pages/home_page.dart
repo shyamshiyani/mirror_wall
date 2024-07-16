@@ -1,9 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:mirror_walll/provider/bookmark_provider.dart';
 import 'package:mirror_walll/provider/conectivity_cheak.dart';
 import 'package:mirror_walll/view/pages/all_browser_page.dart';
-import 'package:mirror_walll/view/pages/home_page.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -31,97 +32,51 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("My Browser"),
         actions: [
-          IconButton(
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return (Provider.of<BookMarkasUrls>(context)
-                            .bookMarkesUrls
-                            .isEmpty)
-                        ? const AlertDialog(
-                            title: Text("All Bookmarks"),
-                            content: Text("NO Bookmarks Found"),
-                          )
-                        : AlertDialog(
-                            title: const Text("All Bookmarks"),
-                            content: Consumer<BookMarkasUrls>(
-                              builder: (context, value, child) {
-                                return SizedBox(
-                                  height: 400,
-                                  width: 370,
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      children: Provider.of<BookMarkasUrls>(
-                                              context)
-                                          .bookMarkesUrls
-                                          .map(
-                                            (e) => InkWell(
-                                              onTap: () {},
-                                              child: Card(
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    width: 240,
-                                                    child: Row(
-                                                      children: [
-                                                        const CircleAvatar(
-                                                          child: Icon(Icons
-                                                              .file_open_outlined),
-                                                        ),
-                                                        Expanded(
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8.0),
-                                                            child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                Text(
-                                                                  "$e",
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  maxLines: 1,
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                          .toList(),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          );
-                  });
+          PopupMenuButton(
+            itemBuilder: (context) {
+              return <PopupMenuEntry>[
+                PopupMenuItem(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed("bookMarkUrl");
+                    },
+                    child: const Row(
+                      children: [
+                        Icon(Icons.bookmark),
+                        SizedBox(
+                          width: 12,
+                        ),
+                        Text("BookMarks"),
+                      ],
+                    ),
+                  ),
+                ),
+                PopupMenuItem(
+                  child: GestureDetector(
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const AllBrowserList();
+                          });
+                    },
+                    child: const Row(
+                      children: [
+                        Row(
+                          children: [
+                            Icon(Icons.computer_rounded),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 12,
+                        ),
+                        Text("Browsers"),
+                      ],
+                    ),
+                  ),
+                ),
+              ];
             },
-            icon: const Icon(Icons.bookmark),
-          ),
-          IconButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AllBrowserList();
-                },
-              );
-            },
-            icon: const Icon(
-              Icons.more_vert,
-            ),
           ),
         ],
       ),
@@ -212,9 +167,7 @@ class _HomePageState extends State<HomePage> {
                                   Provider.of<BookMarkasUrls>(
                                     context,
                                     listen: false,
-                                  ).AddUrl(webUri);
-                                } else {
-                                  // Handle the case when webUri is null, if needed
+                                  ).addUrl(webUri);
                                 }
                               },
                               icon: const Icon(

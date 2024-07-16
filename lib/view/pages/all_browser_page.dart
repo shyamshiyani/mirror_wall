@@ -10,7 +10,7 @@ class AllBrowserList extends StatefulWidget {
 }
 
 class _AllBrowserListState extends State<AllBrowserList> {
-  String browser = "";
+  String browser = "google";
   String browserName = "Goggle";
   @override
   Widget build(BuildContext context) {

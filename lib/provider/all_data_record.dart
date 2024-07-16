@@ -4,7 +4,7 @@ class AllBroswerData extends ChangeNotifier {
   List<Map> allBrowserUrl = [
     {
       "Url": "https://www.google.co.in/.",
-      "value": "goggle",
+      "value": "google",
     },
     {
       "Url": "https://in.search.yahoo.com/?fr2=inr",

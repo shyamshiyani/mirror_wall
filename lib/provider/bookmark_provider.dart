@@ -4,9 +4,13 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 class BookMarkasUrls extends ChangeNotifier {
   List<WebUri> bookMarkesUrls = [];
 
-  void AddUrl(WebUri uri) {
+  void addUrl(WebUri uri) {
     bookMarkesUrls.add(uri);
+    notifyListeners();
   }
 
-  notifyListeners();
+  void removeUrl(WebUri uri) {
+    bookMarkesUrls.remove(uri);
+    notifyListeners();
+  }
 }
