@@ -38,6 +38,10 @@ dependencies:
   provider:
   connectivity_plus:
   flutter_inappwebview:
+  carousel_slider:
+  smooth_page_indicator: ^1.0.0+2
+  shared_preferences:
+
 
 
 dev_dependencies:

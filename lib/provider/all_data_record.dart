@@ -7,7 +7,7 @@ class AllBroswerData extends ChangeNotifier {
       "value": "google",
     },
     {
-      "Url": "https://in.search.yahoo.com/?fr2=inr",
+      "Url": "https://in.search.yahoo.com/",
       "value": "Yahoo",
     },
     {

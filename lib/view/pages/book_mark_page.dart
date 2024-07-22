@@ -65,9 +65,6 @@ class _BookMarkUrlState extends State<BookMarkUrl> {
                                         IconButton(
                                           onPressed: () {
                                             bookMarkasUrl.removeUrl(e);
-
-                                            print(
-                                                "${Provider.of<BookMarkasUrls>(context, listen: false).bookMarkesUrls}");
                                           },
                                           icon: const Icon(Icons.delete),
                                         ),

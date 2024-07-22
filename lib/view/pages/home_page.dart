@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:mirror_walll/provider/all_data_record.dart';
 import 'package:mirror_walll/provider/bookmark_provider.dart';
 import 'package:mirror_walll/provider/conectivity_cheak.dart';
 import 'package:mirror_walll/view/pages/all_browser_page.dart';
@@ -18,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   InAppWebViewController? inAppWebViewController;
   PullToRefreshController? pullToRefreshController;
   TextEditingController searchController = TextEditingController();
+  String browser = "https://www.google.co.in/.";
 
   @override
   void initState() {
@@ -52,29 +54,55 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 PopupMenuItem(
-                  child: GestureDetector(
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return const AllBrowserList();
-                          });
-                    },
-                    child: const Row(
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.computer_rounded),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          actions: const [
+                            Text("Cancel"),
+                            SizedBox(
+                              width: 12,
+                            ),
+                            Text("ok"),
                           ],
-                        ),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        Text("Browsers"),
-                      ],
-                    ),
-                  ),
-                ),
+                          title: const Text("Browsers"),
+                          content: SizedBox(
+                            height: 195,
+                            width: 300,
+                            child: Column(
+                                children: Provider.of<AllBroswerData>(context)
+                                    .allBrowserUrl
+                                    .map((e) {
+                              return Row(
+                                children: [
+                                  Radio(
+                                    value: e['Url'],
+                                    groupValue: browser,
+                                    onChanged: (val) {
+                                      setState(
+                                        () {
+                                          browser = val ?? '';
+
+                                          inAppWebViewController?.loadUrl(
+                                              urlRequest:
+                                                  URLRequest(url: WebUri(val)));
+                                          Navigator.pop(context);
+                                        },
+                                      );
+                                    },
+                                  ),
+                                  Text("${e['value']}"),
+                                ],
+                              );
+                            }).toList()),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: Text("Browser"),
+                )
               ];
             },
           ),
@@ -87,26 +115,21 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
-                  child: Container(
-                    alignment: Alignment.center,
-                    child: const Icon(Icons.search),
-                  ),
-                ),
-                Expanded(
                   flex: 6,
                   child: TextField(
                     controller: searchController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15),
+                        ),
                       ),
                       filled: true,
                       fillColor: Colors.white,
                       hintText: 'Search or type web address',
-                      hintStyle: const TextStyle(color: Colors.grey),
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 14, horizontal: 16),
+                      hintStyle: TextStyle(color: Colors.grey),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 14, horizontal: 16),
                     ),
                     onSubmitted: (value) async {
                       String url = value;
@@ -152,7 +175,12 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                inAppWebViewController?.loadUrl(
+                                    urlRequest: URLRequest(
+                                        url:
+                                            WebUri("https://www.google.com/")));
+                              },
                               icon: const Icon(
                                 Icons.home_outlined,
                                 size: 30,
