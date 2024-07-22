@@ -38,20 +38,10 @@ class _HomePageState extends State<HomePage> {
             itemBuilder: (context) {
               return <PopupMenuEntry>[
                 PopupMenuItem(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pushNamed("bookMarkUrl");
-                    },
-                    child: const Row(
-                      children: [
-                        Icon(Icons.bookmark),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        Text("BookMarks"),
-                      ],
-                    ),
-                  ),
+                  onTap: () {
+                    Navigator.of(context).pushNamed("bookMarkUrl");
+                  },
+                  child: Text("BookMarks"),
                 ),
                 PopupMenuItem(
                   onTap: () {
